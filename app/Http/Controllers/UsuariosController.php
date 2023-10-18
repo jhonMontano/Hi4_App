@@ -7,10 +7,13 @@ use App\Models\usuarios;
 use App\service\UsuarioService;
 use App\DataTransferObjects\UserDTO;
 use Illuminate\Validation\ValidationException;
+use App\Traits\ResponseStructureTrait;
+use App\Messages\Messages;
+use App\DataTransferObjects\Response  as ResponseDTO;
 
 class UsuariosController extends Controller
 {
-
+    use ResponseStructureTrait;
     private UsuarioService $usuarioService;
 
 
@@ -51,10 +54,15 @@ class UsuariosController extends Controller
             $usuario->SetRegisterDate(now());
 
             $this->usuarioService->crear($usuario);
-
-            return response()->json(['message' => 'Usuario creado con éxito'], 201);
-        } catch (ValidationException $th) {
-            return response()->json(['erros' => $th->errors()], 500);
+          
+            $response = new ResponseDTO();
+                    $response->message = Messages::USER_CREATED;
+                    $response->body = [];
+            return $this->successResponse($response, JsonResponse::HTTP_OK);
+        } catch (ValidationException $ve) {
+            return $this->errorResponse($ve->errors(), JsonResponse::HTTP_BAD_REQUEST);
+        } catch (Exception $e) {
+            return $this->errorResponse($e->getMessage(), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
