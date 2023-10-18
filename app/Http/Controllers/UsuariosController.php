@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\usuarios;
 use App\service\UsuarioService;
@@ -10,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 use App\Traits\ResponseStructureTrait;
 use App\Messages\Messages;
 use App\DataTransferObjects\Response  as ResponseDTO;
+use Illuminate\Http\JsonResponse;
 
 class UsuariosController extends Controller
 {
@@ -54,10 +55,10 @@ class UsuariosController extends Controller
             $usuario->SetRegisterDate(now());
 
             $this->usuarioService->crear($usuario);
-          
+
             $response = new ResponseDTO();
-                    $response->message = Messages::USER_CREATED;
-                    $response->body = [];
+            $response->message = Messages::USER_CREATED;
+            $response->body = [];
             return $this->successResponse($response, JsonResponse::HTTP_OK);
         } catch (ValidationException $ve) {
             return $this->errorResponse($ve->errors(), JsonResponse::HTTP_BAD_REQUEST);
