@@ -14,9 +14,7 @@ class UserDTO
     private string $password;
     private string $registerDate;
 
-
-    public function __construct()
-    {
+    public function __construct(){    
     }
 
     public function getId(): int
