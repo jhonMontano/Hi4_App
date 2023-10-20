@@ -19,7 +19,6 @@ class UsuarioService
             throw new \Exception("El usuario ya existe");
         } else {
             $usuario = new Usuarios;
-            $usuario->id_usuarios = $user->getId();
             $usuario->nombre = $user->getName();
             $usuario->apellido = $user->getLastName();
             $usuario->fechanac = $user->getBornDate();
