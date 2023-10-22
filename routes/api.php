@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\PublicacionController;
 use App\Http\Controllers\SesionesUsuarioController;
+use App\Http\Controllers\SeguidorController;
+use App\Http\Controllers\MegustaController;
+
 use App\Models\Publicacion;
 
 /*
@@ -36,5 +39,16 @@ Route::get('/sesionesUsuario', [SesionesUsuarioController::class, 'listarSesione
 Route::post('/sesionUsuario/crear', [SesionesUsuarioController::class, 'crearSesionUsuario']);
 Route::put('/sesionUsuario/editar/{id}', [SesionesUsuarioController::class, 'editarSesionUsuario']);
 Route::delete('/sesionUsuario/eliminar/{id}', [SesionesUsuarioController::class, 'eliminarSesionUsuario']);
+
+Route::get('/seguidor', [SeguidorController::class, 'listarSeguidor']);
+Route::post('/seguidor/crear', [SeguidorController::class, 'crearSeguidor']);
+Route::put('/seguidor/editar/{id}', [SeguidorController::class, 'editarSeguidor']);
+Route::delete('/seguidor/eliminar/{id}', [SeguidorController::class, 'eliminarSeguidor']);
+
+Route::get('/meGusta', [MegustaController::class, 'listarMeGusta']);
+Route::post('/meGusta/crear', [MegustaController::class, 'crearMeGusta']);
+Route::delete('/meGusta/eliminar/{id}', [MegustaController::class, 'eliminarMeGusta']);
+
+
 
 
