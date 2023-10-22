@@ -76,7 +76,7 @@ class UsuariosController extends Controller
 {
     try {
         $request->validate([
-            'id_usuarios' => 'required|string|max:256',
+            'id_usuarios' => 'required|int',
             'nombre' => 'required|string|max:50',
             'apellido' => 'required|string|max:50',
             'fechanac' => 'required|date',
