@@ -53,7 +53,7 @@ class SesionesUsuarioController extends Controller
         } catch (ValidationException $ve) {
             return $this->errorResponse($ve->errors(), JsonResponse::HTTP_BAD_REQUEST);
         } catch (Exception $e) {
-    
+
             return $this->errorResponse($e->getMessage(), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -66,20 +66,20 @@ class SesionesUsuarioController extends Controller
                 'ultimo_ingreso' => 'required|date',
                 'idusuario' => 'required|int',
             ]);
-    
+
             $sesionExistente = SesionesUsuario::find($id);
             if (!$sesionExistente) {
                 throw new \Exception("Sesión no encontrada");
             }
-    
+
             $sesionesUsuario = new SesionesUsuarioDTO();
             $sesionesUsuario->setId($id);
             $sesionesUsuario->setDateTimeSession(now());
             $sesionesUsuario->setLastEntry(now());
             $sesionesUsuario->setIdusuario($request->input('idusuario'));
-    
+
             $this->sesionesUsuarioService->editarSesionUsuario($sesionesUsuario);
-    
+
             $response = new ResponseDTO();
             $response->message = Messages::SESION_UPDATE;
             $response->body = [];
@@ -94,17 +94,17 @@ class SesionesUsuarioController extends Controller
     }
 
     public function eliminarSesionUsuario($id)
-{
-    try {
-        $id = intval($id);
+    {
+        try {
+            $id = intval($id);
 
-        $this->sesionesUsuarioService->eliminarSesionUsuario($id);
+            $this->sesionesUsuarioService->eliminarSesionUsuario($id);
 
-        $response = new ResponseDTO();
-        $response->message = Messages::SESION_DELETE;
-        return $this->successResponse($response, JsonResponse::HTTP_OK);
-    } catch (Exception $e) {
-        return $this->errorResponse($e->getMessage(), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+            $response = new ResponseDTO();
+            $response->message = Messages::SESION_DELETE;
+            return $this->successResponse($response, JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return $this->errorResponse($e->getMessage(), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
-}
 }
