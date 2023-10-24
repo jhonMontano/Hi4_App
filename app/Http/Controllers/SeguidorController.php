@@ -11,7 +11,6 @@ use Illuminate\Validation\ValidationException;
 use App\Traits\ResponseStructureTrait;
 use App\Messages\Messages;
 use App\DataTransferObjects\Response as ResponseDTO;
-use App\Service\SesionesUsuarioService;
 use Illuminate\Http\JsonResponse;
 
 class SeguidorController extends Controller

@@ -7,6 +7,7 @@ use App\Http\Controllers\PublicacionController;
 use App\Http\Controllers\SesionesUsuarioController;
 use App\Http\Controllers\SeguidorController;
 use App\Http\Controllers\MegustaController;
+use App\Http\Controllers\ComentarioController;
 
 use App\Models\Publicacion;
 
@@ -48,6 +49,13 @@ Route::delete('/seguidor/eliminar/{id}', [SeguidorController::class, 'eliminarSe
 Route::get('/meGusta', [MegustaController::class, 'listarMeGusta']);
 Route::post('/meGusta/crear', [MegustaController::class, 'crearMeGusta']);
 Route::delete('/meGusta/eliminar/{id}', [MegustaController::class, 'eliminarMeGusta']);
+
+Route::get('/comentario', [ComentarioController::class, 'listarComentario']);
+Route::post('/comentario/crear', [ComentarioController::class, 'crearComentario']);
+Route::put('/comentario/editar/{id}', [ComentarioController::class, 'editarComentario']);
+Route::delete('/comentario/eliminar/{id}', [ComentarioController::class, 'eliminarComentario']);
+
+
 
 
 

@@ -22,4 +22,8 @@ class Messages
 
     public const  LIKE_CREATED = "Me gusta creado con éxito";
     public const  LIKE_DELETE = "Me gusta eliminado con éxito";
+
+    public const  COMMENT_CREATED = "Comentario creado con éxito";
+    public const  COMMENT_UPDATE = "Comentario actualizado con éxito";
+    public const  COMMENT_DELETE = "Comentario eliminado con éxito";
 }
