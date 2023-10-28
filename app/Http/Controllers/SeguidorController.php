@@ -11,7 +11,9 @@ use Illuminate\Validation\ValidationException;
 use App\Traits\ResponseStructureTrait;
 use App\Messages\Messages;
 use App\DataTransferObjects\Response as ResponseDTO;
+use App\Models\Usuarios;
 use Illuminate\Http\JsonResponse;
+
 
 class SeguidorController extends Controller
 {
@@ -39,12 +41,26 @@ class SeguidorController extends Controller
                 'idusuario_seguido' => 'required|int',
             ]);
 
-            $followerDTO = new FollowerDTO;
-            $followerDTO->setStatus($request->input('estado'));
-            $followerDTO->setIdFollower($request->input('idseguidor'));
-            $followerDTO->setIdFollowedUser($request->input('idusuario_seguido'));
+            $idFollower = $request->input('idseguidor');
+            $idFollowedUser = $request->input('idusuario_seguido');
 
-            $this->seguidorService->crearSeguidor($followerDTO);
+            $idSeguidoExiste = Usuarios::find($idFollower);
+            $idSeguidorSeguido = Usuarios::find($idFollowedUser);
+
+            if (!$idSeguidoExiste) {
+                return $this->errorResponse('Id seguidor no encontrado', JsonResponse::HTTP_NOT_FOUND);
+            }
+
+            if (!$idSeguidorSeguido) {
+                return $this->errorResponse('Id seguido no encontrado', JsonResponse::HTTP_NOT_FOUND);
+            }
+
+            $seguidor = new FollowerDTO;
+            $seguidor->setStatus($request->input('estado'));
+            $seguidor->setIdFollower($request->input('idseguidor'));
+            $seguidor->setIdFollowedUser($request->input('idusuario_seguido'));
+
+            $this->seguidorService->crearSeguidor($seguidor);
 
             $response = new ResponseDTO();
             $response->message = Messages::FOLLOWER_CREATED;
@@ -66,6 +82,20 @@ class SeguidorController extends Controller
                 'idseguidor' => 'required|int',
                 'idusuario_seguido' => 'required|int',
             ]);
+
+            $idFollower = $request->input('idseguidor');
+            $idFollowedUser = $request->input('idusuario_seguido');
+
+            $idSeguidoExiste = Usuarios::find($idFollower);
+            $idSeguidorSeguido = Usuarios::find($idFollowedUser);
+
+            if (!$idSeguidoExiste) {
+                return $this->errorResponse('Id seguido no encontrado', JsonResponse::HTTP_NOT_FOUND);
+            }
+
+            if (!$idSeguidorSeguido) {
+                return $this->errorResponse('Seguido no encontrado', JsonResponse::HTTP_NOT_FOUND);
+            }
 
             $seguidorExistente = Followers::find($id);
             if (!$seguidorExistente) {
@@ -100,7 +130,7 @@ class SeguidorController extends Controller
             $this->seguidorService->eliminarSeguidor($id);
 
             $response = new ResponseDTO();
-            $response->message = Messages::SESION_DELETE;
+            $response->message = Messages::FOLLOWER_DELETE;
             return $this->successResponse($response, JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorResponse($e->getMessage(), JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
